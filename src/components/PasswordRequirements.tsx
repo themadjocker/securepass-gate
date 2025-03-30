@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Check, X } from 'lucide-react';
+import { Check, X, CircleAlert } from 'lucide-react';
 
 interface PasswordValidatorType {
   minLength: boolean;
