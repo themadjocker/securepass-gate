@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
@@ -89,7 +88,6 @@ const LoginForm = () => {
       <CardHeader className="space-y-1 flex flex-col items-center">
         <Logo />
         <CardTitle className="text-2xl font-semibold text-center">Create an account</CardTitle>
-        <p className="text-sm text-gray-500 text-center">to continue to Coil</p>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} autoComplete="off" className="space-y-4">
