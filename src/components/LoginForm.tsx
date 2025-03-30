@@ -1,11 +1,11 @@
 
 import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Eye, EyeOff, Check, X, CircleAlert } from "lucide-react";
+import { Eye, EyeOff, Shield } from "lucide-react";
 import Logo from "@/components/Logo";
 import PasswordStrengthMeter from "@/components/PasswordStrengthMeter";
 import PasswordSuggestions from "@/components/PasswordSuggestions";
@@ -18,26 +18,39 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
+  const [isLoginAttempted, setIsLoginAttempted] = useState(false);
   
-  // Password validation
+  // Enhanced password validation
   const passwordValidator = {
     minLength: password.length >= 8 && password.length <= 15,
     hasUppercase: /[A-Z]/.test(password),
     hasSpecialChar: /[^A-Za-z0-9]/.test(password),
     hasNumber: /\d/.test(password),
-    isUncommon: !/(password|123456|qwerty)/i.test(password),
+    isUncommon: !/(password|123456|qwerty|admin|welcome|letmein|monkey|sunshine|princess)/i.test(password),
   };
   
+  // Count how many requirements are met
   const passwordStrength = Object.values(passwordValidator).filter(Boolean).length;
+  
+  // Track login attempts to prevent brute force
+  const handleLoginAttempt = () => {
+    setIsLoginAttempted(true);
+    
+    // For demonstration purposes, we're just setting a state
+    // In a real app, you would implement rate limiting logic here
+    setTimeout(() => {
+      setIsLoginAttempted(false);
+    }, 3000);
+  };
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate all requirements are met
+    // Password policy enforcement
     if (passwordStrength < 5) {
       toast({
         title: "Password requirements not met",
-        description: "Please ensure your password meets all the requirements.",
+        description: "Please ensure your password meets all the security requirements.",
         variant: "destructive"
       });
       return;
@@ -52,13 +65,23 @@ const LoginForm = () => {
       return;
     }
     
-    // Proceed with login
+    // Simulate login attempt tracking for brute force prevention
+    handleLoginAttempt();
+    
+    // Proceed with login only if all validations pass
     toast({
       title: "Login successful",
       description: "You have successfully logged in!",
     });
     
     console.log("Form submitted:", { email, password });
+  };
+  
+  // Password input handler with sanitization
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Basic input sanitization (prevent copy-pasting of very long strings)
+    const sanitizedValue = e.target.value.slice(0, 50);
+    setPassword(sanitizedValue);
   };
   
   return (
@@ -69,7 +92,7 @@ const LoginForm = () => {
         <p className="text-sm text-gray-500 text-center">to continue to Coil</p>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} autoComplete="off" className="space-y-4">
           <div className="space-y-2">
             <label htmlFor="email" className="text-xs font-medium uppercase text-gray-500">
               Email
@@ -82,6 +105,7 @@ const LoginForm = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
               className="h-12"
+              autoComplete="new-email" // Prevent browser autofill
             />
           </div>
           
@@ -94,10 +118,11 @@ const LoginForm = () => {
                 id="password"
                 type={showPassword ? "text" : "password"}
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handlePasswordChange}
                 required
                 className="h-12 pr-12"
                 onFocus={() => setShowSuggestions(true)}
+                autoComplete="new-password" // Prevent browser autofill
               />
               <button
                 type="button"
@@ -143,10 +168,17 @@ const LoginForm = () => {
           
           <Button 
             type="submit" 
-            className="w-full h-12 mt-4 bg-blue-600 hover:bg-blue-700"
-            disabled={!email || passwordStrength < 5 || !acceptTerms}
+            className="w-full h-12 mt-4 bg-blue-600 hover:bg-blue-700 flex items-center justify-center"
+            disabled={!email || passwordStrength < 5 || !acceptTerms || isLoginAttempted}
           >
-            Next
+            {isLoginAttempted ? (
+              <>Processing...</>
+            ) : (
+              <>
+                <Shield className="mr-2" size={18} />
+                Create Secure Account
+              </>
+            )}
           </Button>
         </form>
       </CardContent>
