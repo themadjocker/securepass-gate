@@ -8,7 +8,7 @@ interface PasswordStrengthMeterProps {
 
 const PasswordStrengthMeter = ({ strength }: PasswordStrengthMeterProps) => {
   const getColorClass = (value: number) => {
-    if (value === 0) return 'bg-gray-200';
+    if (value === 0) return 'bg-gray-200 dark:bg-gray-700';
     if (value <= 2) return 'bg-strength-weak';
     if (value <= 4) return 'bg-strength-medium';
     return 'bg-strength-strong';
@@ -29,7 +29,7 @@ const PasswordStrengthMeter = ({ strength }: PasswordStrengthMeterProps) => {
             key={segment}
             className={cn(
               "h-2 flex-1 rounded-sm transition-all duration-300",
-              segment <= strength ? getColorClass(strength) : "bg-gray-200"
+              segment <= strength ? getColorClass(strength) : "bg-gray-200 dark:bg-gray-700"
             )}
           />
         ))}

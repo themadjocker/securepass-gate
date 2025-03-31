@@ -39,21 +39,21 @@ const PasswordSuggestions = ({ basedOn, onSelect }: PasswordSuggestionsProps) =>
 
   return (
     <div className="space-y-2 animate-slide-up">
-      <p className="text-sm font-medium text-gray-600">Suggested stronger passwords:</p>
+      <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Suggested stronger passwords:</p>
       <div className="flex flex-wrap gap-2">
         {suggestions.map((suggestion, index) => (
           <Button
             key={index}
             type="button"
             variant="outline"
-            className="text-xs"
+            className="text-xs dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-600"
             onClick={() => onSelect(suggestion)}
           >
             {suggestion}
           </Button>
         ))}
       </div>
-      <p className="text-xs text-gray-500">Add another word or two. Uncommon words are better.</p>
+      <p className="text-xs text-gray-500 dark:text-gray-400">Add another word or two. Uncommon words are better.</p>
     </div>
   );
 };

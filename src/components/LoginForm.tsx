@@ -84,15 +84,15 @@ const LoginForm = () => {
   };
   
   return (
-    <Card className="w-full bg-white shadow-lg transition-all duration-300 animate-fade-in">
+    <Card className="w-full bg-white dark:bg-gray-800 shadow-lg transition-all duration-300 animate-fade-in">
       <CardHeader className="space-y-1 flex flex-col items-center">
         <Logo />
-        <CardTitle className="text-2xl font-semibold text-center">Create an account</CardTitle>
+        <CardTitle className="text-2xl font-semibold text-center dark:text-white">Create an account</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} autoComplete="off" className="space-y-4">
           <div className="space-y-2">
-            <label htmlFor="email" className="text-xs font-medium uppercase text-gray-500">
+            <label htmlFor="email" className="text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
               Email
             </label>
             <Input
@@ -102,13 +102,13 @@ const LoginForm = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="h-12"
+              className="h-12 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
               autoComplete="new-email" // Prevent browser autofill
             />
           </div>
           
           <div className="space-y-2">
-            <label htmlFor="password" className="text-xs font-medium uppercase text-gray-500">
+            <label htmlFor="password" className="text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
               Password
             </label>
             <div className="relative">
@@ -118,14 +118,14 @@ const LoginForm = () => {
                 value={password}
                 onChange={handlePasswordChange}
                 required
-                className="h-12 pr-12"
+                className="h-12 pr-12 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
                 onFocus={() => setShowSuggestions(true)}
                 autoComplete="new-password" // Prevent browser autofill
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -155,18 +155,19 @@ const LoginForm = () => {
               id="terms" 
               checked={acceptTerms} 
               onCheckedChange={(checked) => setAcceptTerms(checked === true)}
+              className="dark:border-gray-600"
             />
-            <label htmlFor="terms" className="text-sm text-gray-500 leading-none">
+            <label htmlFor="terms" className="text-sm text-gray-500 dark:text-gray-400 leading-none">
               I agree to the{" "}
-              <a href="#" className="text-blue-600 hover:underline">Terms of Service</a>{" "}
+              <a href="#" className="text-blue-600 hover:underline dark:text-blue-400">Terms of Service</a>{" "}
               and{" "}
-              <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>
+              <a href="#" className="text-blue-600 hover:underline dark:text-blue-400">Privacy Policy</a>
             </label>
           </div>
           
           <Button 
             type="submit" 
-            className="w-full h-12 mt-4 bg-blue-600 hover:bg-blue-700 flex items-center justify-center"
+            className="w-full h-12 mt-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 flex items-center justify-center"
             disabled={!email || passwordStrength < 5 || !acceptTerms || isLoginAttempted}
           >
             {isLoginAttempted ? (
@@ -181,9 +182,9 @@ const LoginForm = () => {
         </form>
       </CardContent>
       <CardFooter className="flex justify-center">
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-500 dark:text-gray-400">
           Already have an account?{" "}
-          <a href="#" className="text-blue-600 hover:underline">Sign in</a>
+          <a href="#" className="text-blue-600 hover:underline dark:text-blue-400">Sign in</a>
         </p>
       </CardFooter>
     </Card>
